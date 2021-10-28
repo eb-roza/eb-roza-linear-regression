@@ -1,7 +1,7 @@
 ######################################################################
 
 # TITLE: Descriptive Summary Statistics
-# DATE MODIFIED: 6/20/2021
+# DATE MODIFIED: 10/28/2021
 # AUTHOR: EDB
 
 ######################################################################
@@ -87,6 +87,9 @@ qqline(walleyes$mercury)
 #  Conduct an appropriate test to determine this, checking necessary assumptions.  
 #Summarize your findings. 
 
+# There is not sufficient evidence to reject the null hypothesis
+# that the that the mean length is over 15 inches.
+
 qqnorm((walleyes$length))
 qqline((walleyes$length))
 
@@ -98,8 +101,10 @@ t.test(walleyes$length, mu = 15, alternative = "less", data = walleyes)
 # c. Give a 95% confidence interval for the mean length of walleyes in Island Lake.  
 #     Interpret this interval.
 
+#    With 95% confidence, the population average length for 
+#walleyes is between 15.5 and 17.9 inches
+
 t.test(walleyes$length, conf.level = 0.95)$conf.int
-#    With 95% confidence, the population average length for walleyes is between 15.5 and 17.9 inches
 
 
 # d. Give a 95% prediction interval for the length of randomly “selected” walleye from Island Lake. 
@@ -114,37 +119,3 @@ walleyes %>%
 # There is more variation among weights as the mean length increases
 
 
-
-########## MN WALLEYES #####
-
-# 1. Use histograms, kernel density estimates, and summary statistics to characterize the 
-# distribution of weight, length, and mercury concentration for the walleyes in Island 
-# Lake.
-
-mn_walleyes <- read.delim("C:\\Users\\edbro\\Documents\\Code\\eb-roza-linear-regression\\data\\mn-walleyes.txt",
-                       header = TRUE,
-                       sep = ",")  %>% 
-  rename(in_length = LGTHIN,
-         cm_length = LGTCM,
-         mercury = HGPPM)
-
-# a.  Create a binned version of length (in.) using 2.5 in width bins.  Then examine the conditional distribution 
-#     of HGPPM|Length using the binned length variable.  Construct a table in JMP giving  and  and discuss the results.  
-min_length <- min(mn_walleyes$in_length)
-by_2.5 = seq(min_length,50, by = 2.5)
-
-mn_walleyes %<>% 
-  mutate(grp_in_length = cut(in_length, breaks = by_2.5, include.lowest = TRUE))
-
-mn_walleyes %>% 
-  ggplot(aes(x = grp_in_length, y = mercury)) +
-  geom_point()
-
-summary(mn_walleyes)
-
-# b)  What percent of the variation in the response (HGPPM) is explained by the  regression on binned length?  
-#     Interpret this value.
-
-lm_mn_walleyes <- lm(mercury ~ grp_in_length, data = mn_walleyes)
-
-summary(lm_mn_walleyes)
