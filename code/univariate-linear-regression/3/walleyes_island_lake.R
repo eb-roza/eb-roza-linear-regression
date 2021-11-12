@@ -30,10 +30,15 @@ walleyes <- read.delim("C:\\Users\\edbro\\Documents\\Code\\eb-roza-linear-regres
 
 walleyes %>% 
 ggplot(aes(x = length, y = mercury)) +
-  geom_point()
+  geom_point() + 
+  geom_smooth(method = lm, se = TRUE) + 
+  stat_ellipse()
 
 hist(walleyes$length)
 hist(walleyes$mercury)
+
+mean(walleyes$length)
+mean(walleyes$mercury)
 
 # Would not characterize this data as BVN, mercury distribution has right skew,
 # length is closer to normal with a smaller skew.  Plot has slight linear
@@ -58,6 +63,13 @@ summary(walleyes$log_mercury)
 mean(walleyes$mercury)
 exp(mean(walleyes$log_mercury))
 
+hist(walleyes$mercury)
+hist(walleyes$log_mercury)
+
+# While they are close, they aren't exactly equivalent, likely due to some
+# rounding that has occured during the transformation.
+
+
 # c. Repeat part (b), but this time consider the sample medians instead.  
 # What do you find?  (3 pts.)
 
@@ -76,8 +88,6 @@ plot(lm_merc_length)
 # assumptions of constant variance.  Stanardized residuals appear to have
 # an increasing trend.
 
-# e. Construct a nonconstant variance plot for the model fit in part (d)
-# and discuss what this model suggests regarding the model assumptions.  (3 pts.)
 
 # f. Despite the fact this model is clearly deficient, interpret the 
 # both parameters estimates  in words using proper units.  (2 pts.)
@@ -92,9 +102,19 @@ plot(lm_log_merc_length)
 
 # there is still some curvature in the residuals, though it is improved.
 
-# h. Construct a nonconstant variance plot for the model fit in 
-# part (f), , and discuss what this model suggests regarding 
-# the model assumptions.  (3 pts.)
+
+
+#k)What is the R-Square  value for the regression of  on ? In the 
+#context of this problem, carefully explain what this value is measuring. (3 pts.)
+
+# R-squared is measuring the variation in mercury levels, as explained
+# by the length of the fish. 
+
+# n) Give a point estimate and CI for a fish of length 17.9.  Also convert these back 
+# to the original scale and interpret.  (4 pts.)
+
+# o) Give a point estimate and PI for a fish of length 20.  
+# Also convert these back to the original scale and interpret.  (4 pts.)
 
 # s)Would you recommend using this model to predict the mercury levels 
 # and develop consumption advisories for walleyes in the Mississippi River?
