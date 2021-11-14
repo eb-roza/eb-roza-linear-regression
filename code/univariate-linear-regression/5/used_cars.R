@@ -147,6 +147,18 @@ lev_resid <- cln_cars_pred %>%
   filter((resid < -2000 &
            pred > 10000))
 
+# NCV Plot
+
+num_cars <- num_cars %>% 
+  mutate(abs_resid = abs(resid)) %>% 
+  mutate(root_abs_resid = sqrt(abs_resid))
+
+num_cars %>% 
+  ggplot(aes(x = pred, y = root_abs_resid)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+# there is an increasing trend so the variance isn't constant
+
 
 #Which predictors/terms in model are statistically significant
 # at the 0.55 level?  
