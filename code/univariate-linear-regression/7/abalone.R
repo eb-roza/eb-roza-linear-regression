@@ -108,6 +108,8 @@ lm.final = lm(log(rings)
 
 summary(lm.final)
 
+car::vif(lm.final)
+
 
 par(mfrow=c(2,2))
 plot(lm.final)
